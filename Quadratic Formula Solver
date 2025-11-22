@@ -1,0 +1,42 @@
+#include <iostream>
+#include <cmath>
+#include <optional>
+#include <tuple>
+#include <string>
+
+std::optional<std::tuple<double, double>> solveQuadratic(double a, double b, double c) {
+    double discriminant = b*b - 4*a*c;
+
+    if (discriminant < 0) {
+        // No real solutions
+        return std::nullopt;
+    }
+
+    double sqrtD = std::sqrt(discriminant);
+    double x1 = (-b + sqrtD) / (2 * a);
+    double x2 = (-b - sqrtD) / (2 * a);
+
+    return std::make_optional(std::make_tuple(x1, x2));
+}
+
+int main() {
+    double a, b, c;
+    std::cout << "Enter coefficients a, b, c: ";
+    std::cin >> a >> b >> c;
+
+    auto result = solveQuadratic(a, b, c);
+
+    if (!result) {
+        std::cout << "No real solution\n";
+    } else {
+        auto [x1, x2] = *result;
+
+        if (x1 == x2) {
+            std::cout << "One real solution: x = " << x1 << "\n";
+        } else {
+            std::cout << "Two real solutions:\n";
+            std::cout << "x1 = " << x1 << "\n";
+            std::cout << "x2 = " << x2 << "\n";
+        }
+    }
+}
